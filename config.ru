@@ -1,6 +1,6 @@
 require 'bundler'
 
 Bundler.require :default
-require './app'
+require File.expand_path('../config/app',  __FILE__)
 
 run Todo::App

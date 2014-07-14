@@ -1,0 +1,22 @@
+doctype html
+html lang="en"
+  head
+    meta charset="utf-8"
+    title Todo
+  body
+    header role="banner"
+      h1 Todo
+    
+    main role="main"
+      h2 Create a List Item
+      
+      form action="/items" method="post"
+        label for="item-text" Item
+        input#item-text type="text" name="item[text]"
+        
+        button type="submit" Add Item
+      
+      - if items
+        ol
+          - for item in items do
+              li = item.text
