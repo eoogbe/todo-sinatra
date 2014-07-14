@@ -2,9 +2,15 @@ class Item
   attr_accessor :text
   
   def initialize args = {}
-    args.each do |k, v|
-      m = "#{k}="
-      send m, v if respond_to? m
-    end
+    @text = args[:text]
+  end
+  
+  def validate
+    errors[:text] = :blank if text.blank?
+    errors.blank?
+  end
+  
+  def errors
+    @errors ||= {}
   end
 end

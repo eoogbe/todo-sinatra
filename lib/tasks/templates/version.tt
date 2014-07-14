@@ -1,0 +1,4 @@
+class <%= version_class %> < Todo::Db::Version
+  def change
+  end
+end
