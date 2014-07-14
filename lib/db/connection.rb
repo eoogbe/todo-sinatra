@@ -15,7 +15,9 @@ module Todo
       
       def execute sql, params = {}, &block
         results = connection.prepare(sql).execute params
-        rows = results.map {|result| result.to_a.fields = results.columns }
+        rows = results.to_a.map do |result|
+          result.tap {|r| r.fields = results.columns }
+        end
         rows.each {|row| yield row } if block_given?
         rows
       end
