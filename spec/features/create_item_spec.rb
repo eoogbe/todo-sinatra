@@ -1,34 +1,17 @@
-ENV['RACK_ENV'] = 'test'
-require File.expand_path '../../config/app', __dir__
-require 'capybara/rspec'
-
-RSpec.configure do |config|
-  Capybara.app = Todo::App
-  
-  config.before :suite do
-    Todo::Db::Connection.open do |connection|
-      connection.drop_all
-      Todo::Db::AddVersions.new(connection).exec
-    end
-  end
-
-  config.after :each do
-    Todo::Db::Connection.open do |connection|
-      connection.truncate_all
-    end
-  end
-end
+require 'feature_helper'
 
 feature 'Create list item' do
-  scenario 'when valid' do
+  background do
     visit '/'
-    fill_in 'Item', with: 'Apples'
+  end
+  
+  scenario 'when valid' do
+    fill_in 'Item', with: 'The text'
     click_on 'Add Item'
-    expect(page).to have_selector 'ol > li', text: 'Apples'
+    expect(page).to have_selector 'td', text: 'The text'
   end
   
   scenario 'when invalid' do
-    visit '/'
     click_on 'Add Item'
     expect(page).not_to have_selector 'ol'
     expect(page).to have_selector 'form .errors li', text: 'Text must not be blank'

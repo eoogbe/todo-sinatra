@@ -22,6 +22,10 @@ module Todo
         rows
       end
       
+      def last_insert_row_id
+        connection.last_insert_row_id
+      end
+      
       def truncate_all
         execute "SELECT name FROM sqlite_master WHERE type='table'" do |row|
           execute %Q(DELETE FROM "#{row[:name].gsub '"', '""'}") unless row[:name] == 'schema_version'

@@ -50,7 +50,7 @@ module Todo
       end
       
       def create_schema_version_table_sql
-        'CREATE TABLE IF NOT EXISTS schema_version (id INT PRIMARY KEY)'
+        'CREATE TABLE IF NOT EXISTS schema_version (id INTEGER PRIMARY KEY)'
       end
       
       def select_last_version_id_sql

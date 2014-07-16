@@ -1,26 +1,21 @@
 class ItemMapper
   def all
-    connection.execute('SELECT text FROM item').map do |row|
-      Item.new text: row[:text]
+    connection.execute('SELECT item_id, text FROM item').map do |row|
+      Item.new id: row[:item_id], text: row[:text]
     end
   end
   
+  def delete id
+    connection.execute "DELETE FROM item WHERE item_id=?", [id]
+  end
+  
   def insert item
-    connection.execute insert_item_sql, [find_next_id, item.text]
+    connection.execute 'INSERT INTO item (text) VALUES (?)', [item.text]
+    item.id = connection.last_insert_row_id
   end
   
   private
   def connection
     @connection ||= Todo::Db::Connection.new
-  end
-  
-  def find_next_id
-    rows = connection.execute 'SELECT MAX(item_id) FROM item'
-    id = rows.first[:item_id] || 0
-    id + 1
-  end
-  
-  def insert_item_sql
-    'INSERT INTO item (item_id, text) VALUES (?, ?)'
   end
 end

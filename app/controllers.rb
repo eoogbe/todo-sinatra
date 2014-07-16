@@ -15,5 +15,10 @@ module Todo
         haml :items_new, locals: { item: item, items: item_mapper.all }
       end
     end
+    
+    delete '/items/:id' do
+      ItemMapper.new.delete params[:id]
+      redirect '/'
+    end
   end
 end

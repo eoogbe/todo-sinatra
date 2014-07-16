@@ -1,5 +1,5 @@
 class Item
-  attr_accessor :text
+  attr_accessor :id, :text
   
   def initialize args = {}
     @text = args[:text]

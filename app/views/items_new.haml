@@ -29,6 +29,12 @@
         %button.btn.btn-primary(type="submit") Add Item
       
       - if items.present?
-        %ol
-          - items.each do |item|
-            %li= item.text
+        %table
+          %tbody
+            - items.each do |item|
+              %tr
+                %td= item.text
+                %td
+                  %form(action="/items/#{item.id}" method="post")
+                    %input(name="_method" value="delete")
+                    %button.btn.btn-link(type="submit") delete

@@ -25,7 +25,7 @@ module Todo
       use Rack::Locale
       I18n.load_path << File.join(__dir__, 'en.yml')
       I18n.enforce_available_locales = true
-      enable :static
+      enable :static, :method_override
       set :root, File.expand_path('../', __dir__)
       set :views, File.join(settings.root, 'app', 'views')
       set :public_dir, File.join(settings.root, 'public')
