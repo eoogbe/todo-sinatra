@@ -1,8 +1,10 @@
 ENV['RACK_ENV'] = 'test'
+require File.expand_path '../../config/app', __dir__
 require 'capybara/rspec'
-require File.expand_path '../config/app', __dir__
 
 RSpec.configure do |config|
+  Capybara.app = Todo::App
+  
   config.before :suite do
     Todo::Db::Connection.open do |connection|
       connection.drop_all
@@ -18,8 +20,6 @@ RSpec.configure do |config|
 end
 
 feature 'Create list item' do
-  Capybara.app = Todo::App
-  
   scenario 'when valid' do
     visit '/'
     fill_in 'Item', with: 'Apples'

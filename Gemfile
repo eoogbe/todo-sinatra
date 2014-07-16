@@ -18,4 +18,5 @@ gem 'uglifier', '~> 2.5.1'
 group :test do
   gem 'rspec', '~> 3.0.0'
   gem 'capybara'
+  gem 'rspec-given'
 end
