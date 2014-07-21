@@ -2,3 +2,6 @@
 en:
     errors:
         blank: must not be blank
+    titles:
+        sessions:
+            new: Sign In

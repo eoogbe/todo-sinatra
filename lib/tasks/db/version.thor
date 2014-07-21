@@ -9,7 +9,7 @@ module Todo
         namespace "db:version"
         
         def self.source_root
-          File.expand_path('../', __dir__)
+          File.expand_path( '../..', __FILE__)
         end
         
         desc 'add', 'adds new versions to the database'

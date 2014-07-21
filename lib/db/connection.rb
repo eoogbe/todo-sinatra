@@ -9,6 +9,10 @@ module Todo
         yield new 
       end
       
+      def self.escape_quotes text
+        text.to_s.gsub '"', '""'
+      end
+      
       def initialize connection = nil
         @connection = connection || SQLite3::Database.new(dbname)
       end
@@ -28,7 +32,9 @@ module Todo
       
       def truncate_all
         execute "SELECT name FROM sqlite_master WHERE type='table'" do |row|
-          execute %Q(DELETE FROM "#{row[:name].gsub '"', '""'}") unless row[:name] == 'schema_version'
+          unless row[:name] == 'schema_version'
+            execute %Q(DELETE FROM "#{self.class.escape_quotes row[:name]}")
+          end
         end
       end
       

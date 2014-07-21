@@ -4,7 +4,7 @@ feature 'Delete list item' do
   given!(:item) { Item.new text: 'The text' }
   
   background do
-    ItemMapper.new.insert item
+    ItemMapper.insert item
     visit '/'
   end
   

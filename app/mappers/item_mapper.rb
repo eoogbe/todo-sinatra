@@ -1,4 +1,20 @@
 class ItemMapper
+  def self.all
+    new.all
+  end
+  
+  def self.delete id
+    new.delete id
+  end
+  
+  def self.insert item
+    new.insert item
+  end
+  
+  def initialize connection = nil
+    @connection = connection || Todo::Db::Connection.new
+  end
+  
   def all
     connection.execute('SELECT item_id, text FROM item').map do |row|
       Item.new id: row[:item_id], text: row[:text]
@@ -15,7 +31,5 @@ class ItemMapper
   end
   
   private
-  def connection
-    @connection ||= Todo::Db::Connection.new
-  end
+  attr_reader :connection
 end

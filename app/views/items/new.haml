@@ -1,0 +1,28 @@
+%h2 Create a List Item
+
+%form(action="/items" method="post")
+  - if item.errors.present?
+    .errors
+      %h3 "#{pluralize(item.errors.size, "errors")} prohibited this item from being saved:"
+      %ul
+        - item.errors.each do |attr, error|
+          %li= "#{attr.to_s.humanize} #{t "errors.#{error}"}"
+  
+  .form-group
+    %label.sr-only(for="item-text") Item
+    %input.form-control#item-text(type="text" name="item[text]" placeholder="Enter item..." aria-required="true" required){ value: item.text || "" }
+  
+  %button.btn.btn-primary(type="submit") Add Item
+
+- if items.present?
+  %table
+    %tbody
+      - items.each do |item|
+        %tr
+          %td= item.text
+          %td
+            %form(action="/items/#{item.id}" method="post")
+              %input(name="_method" value="delete")
+              %button.btn.btn-link(type="submit")
+                %span.sr-only delete
+                %span.glyphicon.glyphicon-remove
