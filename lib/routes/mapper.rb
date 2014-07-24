@@ -1,8 +1,9 @@
 require 'active_support/core_ext/object/blank'
-require File.expand_path '../core/string_ext', __dir__
+require 'active_support/core_ext/string/inflections'
+require './lib/core/string_ext'
 
 module Todo
-  module Route
+  module Routes
     class Mapper
       REQUEST_METHODS = %i(get post put delete)
       
@@ -21,18 +22,16 @@ module Todo
       end
       
       def member
-        recover = scope
+        recover = scope.dup
         scope[:on] = :member
         yield
         self.scope = recover
       end
       
-      def nested namespace
-        recover = scope
-        namespace = "/#{namespace}" unless namespace.start_with? '/'
-        scope[:namespace] += namespace
-        yield
-        self.scope = recover
+      def root name = nil, &block
+        route = { namespace: '/', method: :get, block: block, path: '', name: 'root' }
+        route[:view] = create_route_view route[:method], name, scope
+        routes << route
       end
       
       private
@@ -45,7 +44,9 @@ module Todo
         name = args.shift
         path = (args.shift || name).to_s.trim '/'
         
-        base_name = base_name_from options
+        base_name = options[:namespace].trim('/').tr '/', '_'
+        base_name = base_name.singularize if options[:on] == :member
+        
         route = { method: method, block: block }
         
         route[:namespace] = options[:namespace]
@@ -57,19 +58,16 @@ module Todo
         route[:path] += '/:id' if options[:on] == :member
         route[:path] += "/#{path}" if path.present?
         
-        route[:view] = name ? "#{base_name}/#{name}" : "#{base_name}/#{method}"
+        route[:view] = create_route_view method, name, options
         
         routes << route
       end
       
-      def base_name_from options
-        if options[:on] == :member
-          segments = options[:namespace].trim('/').split '/'
-          const_seg = segments.pop.humanize.singularize.tr ' ', '_'
-          segments.join('_') + const_seg
-        else
-          options[:namespace].trim('/').tr '/', '_'
-        end
+      def create_route_view method, name, options
+        view = options[:namespace].trim '/'
+        view = view.singularize if options[:on] == :member
+        view += name ? "/#{name}" : "/#{method}"
+        view
       end
     end
   end

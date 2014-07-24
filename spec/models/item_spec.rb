@@ -1,5 +1,6 @@
-require File.expand_path '../../app/models/item', __dir__
 require 'rspec/given'
+require 'spec_helper'
+require './app/models/item'
 
 describe Item do
   describe '#validate' do
@@ -13,7 +14,7 @@ describe Item do
     context 'when invalid' do
       Given(:item) { Item.new }
       Then { !valid }
-      And { item.errors[:text] == :blank }
+      And { item.errors[:text].include? :blank }
     end
   end
 end

@@ -1,7 +1,15 @@
 class User
   class Nil
-    def valid_password?
+    def valid_password? password
       false
+    end
+    
+    def email
+      ''
+    end
+    
+    def password
+      ''
     end
   end
   
@@ -22,6 +30,10 @@ class User
   
   def encrypted_password= password
     @encrypted_password = BCrypt::Password.new password
+  end
+  
+  def errors
+    @errors ||= Todo::Models::Errors.new
   end
   
   private

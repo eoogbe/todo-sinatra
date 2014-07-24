@@ -19,6 +19,8 @@ require 'active_support/core_ext/string/inflections'
 lib_files = File.join 'lib', '**', '*.rb'
 Dir[lib_files].each {|file| require "./#{file}" }
 
+require './app/view_helper'
+
 module Todo
   class App < Sinatra::Base
     configure :development do
@@ -57,10 +59,10 @@ module Todo
       register Sinatra::AssetPipeline
       AutoprefixerRails.install settings.sprockets
       
-      helpers Todo::View::Rendering
-      register Todo::Route::Mapping
+      helpers Todo::Views::Rendering
+      register Todo::Routes::Mapping
       
-      require './app/view_helper'
+      helpers Todo::Views::Tagging
       helpers ViewHelper
     end
     
@@ -70,6 +72,6 @@ module Todo
   end
 end
 
-components = '{models,mappers,routes}'
+components = '{models,mappers,presenters,routes}'
 app_files = File.join Todo::App.settings.root, 'app', components, '**', '*.rb'
 Dir[app_files].each {|file| require file }

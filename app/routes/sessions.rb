@@ -2,7 +2,7 @@ module Todo
   class App < Sinatra::Base
     use Warden::Manager do |config|
       config.default_strategies :password
-      config.failure_app = public_instance_method(:on_sign_in_failure)
+      config.failure_app = Todo::App
       config.serialize_into_session{|user| user.id }
       config.serialize_from_session{|id| UserMapper.find id }
     end
@@ -17,7 +17,7 @@ module Todo
       end
       
       def authenticate!
-        self.user = UserMapper.find email: params['user']['email']
+        user = UserMapper.find email: params['user']['email']
         if user.valid_password? params['user']['password']
           success! user, 'Welcome user!'
         else
@@ -36,8 +36,13 @@ module Todo
       get :new
     end
     
-    def on_sign_in_failure env
-      haml :'sessions/new'
+    post '/unauthenticated' do
+      flash.now[:error] = 'Invalid email or password'
+      haml_with_layout :'sessions/new'
+    end
+    
+    def user
+      @user ||= UserPresenter.new
     end
     
     private
@@ -45,10 +50,6 @@ module Todo
     
     def warden
       env['warden']
-    end
-    
-    def user
-      @user ||= User.new
     end
   end
 end

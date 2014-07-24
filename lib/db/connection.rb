@@ -1,6 +1,6 @@
 require 'arrayfields'
 require 'sqlite3'
-require File.expand_path '../../config/app', __dir__
+require './config/app'
 
 module Todo
   module Db

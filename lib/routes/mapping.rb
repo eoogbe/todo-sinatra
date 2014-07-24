@@ -1,16 +1,8 @@
+require './lib/routes/mapper'
+
 module Todo
-  module Route
+  module Routes
     module Mapping
-      module Helpers
-        def trigger path
-          call! env.merge 'PATH_INFO' => path
-        end
-        
-        def root_path
-          '/'
-        end
-      end
-      
       def map_routes namespace, &block
         mapping = Mapper.new namespace
         mapping.instance_exec(&block)
@@ -22,7 +14,7 @@ module Todo
               if processed?
                 res
               else
-                haml route[:view].to_sym, layout: Todo::App.settings.layout
+                haml_with_layout route[:view].to_sym
               end
             end
           end
@@ -31,10 +23,6 @@ module Todo
             route[:namespace] + route[:path]
           end
         end
-      end
-      
-      def self.registered app
-        app.helpers Helpers
       end
     end
   end

@@ -2,18 +2,20 @@ require 'feature_helper'
 
 feature 'Sign in user' do
   given!(:user) { User.new email: 'user1@example.com', password: 'foobar' }
+  given(:sign_in_page) { @sign_in_page }
   
   background do
     UserMapper.insert user
-    visit '/sessions/new'
+    @sign_in_page = SignInPage.visit
   end
   
   scenario 'when valid' do
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: user.password
-    click_on 'Sign In'
-    expect(page).to have_content 'Welcome user!'
+    sign_in_page.sign_in user.email, user.password
+    expect(sign_in_page).to have_success
   end
   
-  scenario 'when invalid'
+  scenario 'when invalid' do
+    sign_in_page.sign_in user.email, 'wrong password'
+    expect(sign_in_page).to have_error
+  end
 end

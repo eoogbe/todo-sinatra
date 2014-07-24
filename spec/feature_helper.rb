@@ -1,6 +1,8 @@
 ENV['RACK_ENV'] = 'test'
-require File.expand_path '../config/app', __dir__
+require './config/app'
 require 'capybara/rspec'
+require 'spec_helper'
+Dir[File.join __dir__, 'support', '**', '*.rb'].each {|file| require file }
 
 RSpec.configure do |config|
   Capybara.app = Todo::App

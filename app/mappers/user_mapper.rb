@@ -32,7 +32,7 @@ class UserMapper
   
   def find_sql conditions
     conditions_sql = conditions.keys.map do |type|
-      Todo::Db::Connection.escape_quotes(type) + '=?'
+      %Q["#{Todo::Db::Connection.escape_quotes(type)}"=?]
     end.join(' AND ')
     
     "SELECT user_id, email, encrypted_password FROM user WHERE #{conditions_sql}"

@@ -1,8 +1,12 @@
 module Todo
-  module View
+  module Views
     module Rendering
       def processed?
         !!@processed
+      end
+      
+      def haml_with_layout template
+        haml template, layout: Todo::App.settings.layout
       end
       
       attr_reader :view_name

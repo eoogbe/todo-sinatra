@@ -6,11 +6,11 @@ class Item
   end
   
   def validate
-    errors[:text] = :blank if text.blank?
+    errors.add(:text, :blank) if text.blank?
     errors.blank?
   end
   
   def errors
-    @errors ||= {}
+    @errors ||= Todo::Models::Errors.new
   end
 end
