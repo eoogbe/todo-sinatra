@@ -1,7 +1,13 @@
-require 'feature_helper'
+require 'app_helper'
 
 feature 'Create list item' do
-  given(:new_item_page) { NewItemPage.visit }
+  given!(:user) { create_user }
+  given(:new_item_page) { @new_item_page }
+  
+  background do
+    SignInPage.visit.sign_in user.email, user.password
+    @new_item_page = NewItemPage.visit
+  end
   
   scenario 'when valid' do
     new_item_page.add_item 'The text'

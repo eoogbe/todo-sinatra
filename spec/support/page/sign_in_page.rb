@@ -8,6 +8,10 @@ class SignInPage
     new.tap {|page| page.visit_page }
   end
   
+  def self.path
+    '/sessions/new'
+  end
+  
   def sign_in email, password
     fill_in 'Email', with: email
     fill_in 'Password', with: password
@@ -23,6 +27,6 @@ class SignInPage
   end
   
   def visit_page
-    visit '/sessions/new'
+    visit self.class.path
   end
 end

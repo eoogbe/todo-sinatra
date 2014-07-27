@@ -1,4 +1,3 @@
-require 'rspec/given'
 require 'spec_helper'
 require './lib/db/connection'
 

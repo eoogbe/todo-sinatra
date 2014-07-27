@@ -19,8 +19,6 @@ require 'active_support/core_ext/string/inflections'
 lib_files = File.join 'lib', '**', '*.rb'
 Dir[lib_files].each {|file| require "./#{file}" }
 
-require './app/view_helper'
-
 module Todo
   class App < Sinatra::Base
     configure :development do
@@ -47,6 +45,13 @@ module Todo
       enable :method_override
       register Sinatra::Flash
       
+      use Warden::Manager do |config|
+        config.default_strategies :password
+        config.failure_app = Todo::App
+        config.serialize_into_session {|user| user.id }
+        config.serialize_from_session {|id| UserMapper.find id }
+      end
+      
       set :root, File.expand_path('../', __dir__)
       set :views, File.join(settings.root, 'app', 'views')
       set :public_dir, File.join(settings.root, 'public')
@@ -58,20 +63,12 @@ module Todo
       set :assets_js_compressor, :uglifier
       register Sinatra::AssetPipeline
       AutoprefixerRails.install settings.sprockets
-      
-      helpers Todo::Views::Rendering
-      register Todo::Routes::Mapping
-      
-      helpers Todo::Views::Tagging
-      helpers ViewHelper
-    end
-    
-    def req_params
-      params.with_indifferent_access
     end
   end
 end
 
-components = '{models,mappers,presenters,routes}'
+components = '{models,mappers,presenters}'
 app_files = File.join Todo::App.settings.root, 'app', components, '**', '*.rb'
 Dir[app_files].each {|file| require file }
+
+require File.join Todo::App.settings.root, 'app', 'routes', 'app'

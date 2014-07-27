@@ -13,7 +13,5 @@
           %td= item.text
           %td
             %form(action="/items/#{item.id}" method="post")
-              %input(name="_method" value="delete")
-              %button.btn.btn-link(type="submit")
-                %span.sr-only delete
-                %span.glyphicon.glyphicon-remove
+              %input(type="hidden" name="_method" value="delete")
+              %button.btn.btn-link(type="submit") delete

@@ -2,6 +2,7 @@ class Item
   attr_accessor :id, :text
   
   def initialize args = {}
+    @id = args[:id]
     @text = args[:text]
   end
   

@@ -1,11 +1,10 @@
-require 'feature_helper'
+require 'app_helper'
 
 feature 'Sign in user' do
-  given!(:user) { User.new email: 'user1@example.com', password: 'foobar' }
+  given!(:user) { create_user }
   given(:sign_in_page) { @sign_in_page }
   
   background do
-    UserMapper.insert user
     @sign_in_page = SignInPage.visit
   end
   

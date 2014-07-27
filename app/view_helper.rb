@@ -18,6 +18,12 @@ module ViewHelper
     end
   end
   
+  def build_form action
+    tag :form, action: action, method: :post do
+      yield Todo::Forms::FormBuilder.new nil, self
+    end
+  end
+  
   private
   def default_path_for object
     "#{object.model_class.underscore.tr('/', '_').pluralize}_path"

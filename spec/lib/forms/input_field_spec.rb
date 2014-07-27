@@ -1,4 +1,3 @@
-require 'rspec/given'
 require 'spec_helper'
 require './lib/forms/input_field'
 
@@ -102,6 +101,16 @@ describe Todo::Forms::InputField do
         
         Then { result == expected }
       end
+    end
+    
+    context 'when no object' do
+      Given(:input_field) { Todo::Forms::InputField.new nil, :foo }
+      
+      Given(:expected) do
+        default_html.merge name: :foo, id: :foo, value: ''
+      end
+      
+      Then { result == expected }
     end
   end
 end

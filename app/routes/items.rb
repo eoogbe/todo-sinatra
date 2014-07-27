@@ -2,6 +2,7 @@ module Todo
   class App < Sinatra::Base
     map_routes '/items' do
       post do
+        signed_in_only
         item = Item.new item_params
         
         if item.validate
@@ -13,10 +14,13 @@ module Todo
         end
       end
       
-      root :new
+      root :new do
+        signed_in_only
+      end
       
       member do
         delete do
+          signed_in_only
           item_mapper.delete req_params[:id]
           redirect root_path
         end
@@ -28,7 +32,7 @@ module Todo
     end
     
     def items
-      item_mapper.all
+      @items ||= item_mapper.all
     end
     
     private

@@ -8,6 +8,10 @@ class NewItemPage
     new.tap {|page| page.visit_page }
   end
   
+  def self.path
+    '/'
+  end
+  
   def add_item text
     fill_in 'Item', with: text
     click_on 'Add Item'
@@ -15,6 +19,10 @@ class NewItemPage
   
   def delete_item
     find('table').click_on 'delete'
+  end
+  
+  def current_page?
+    self.class.path == page.current_path
   end
   
   def has_item? text
@@ -30,6 +38,6 @@ class NewItemPage
   end
   
   def visit_page
-    visit '/'
+    visit self.class.path
   end
 end

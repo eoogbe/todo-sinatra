@@ -1,7 +1,25 @@
+@import "bootstrap-compass";
+@import "bootstrap-variables";
+@import "bootstrap";
+
 #item-text {
     width: 30%;
 }
 
 h1 {
     font-size: 40px;
+}
+
+#flash {
+    .flash {
+        @extend .alert
+    }
+    
+    .success {
+        @extend .alert-success
+    }
+    
+    .error {
+        @extend .alert-danger
+    }
 }

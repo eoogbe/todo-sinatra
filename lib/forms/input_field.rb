@@ -17,7 +17,8 @@ module Todo
       end
       
       def id
-        options[:id] || "#{object.model_name}-#{attr}"
+        return options[:id] if options[:id]
+        object ? "#{object.model_name}-#{attr}" : attr
       end
       
       private
@@ -36,12 +37,13 @@ module Todo
       end
       
       def name
-        options[:name] || "#{object.model_name}[#{attr}]"
+        return options[:name] if options[:name]
+        object ? "#{object.model_name}[#{attr}]" : attr
       end
       
       def value
         return options[:value] if options[:value]
-        return '' if type == :password
+        return '' if type == :password || object.nil?
         
         val = object.send attr
         val.present? ? val : ''
