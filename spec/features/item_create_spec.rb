@@ -1,11 +1,10 @@
 require 'app_helper'
 
 feature 'Create list item' do
-  given!(:user) { create_user }
   given(:new_item_page) { @new_item_page }
   
   background do
-    SignInPage.visit.sign_in user.email, user.password
+    SignInPage.sign_in create_user
     @new_item_page = NewItemPage.visit
   end
   

@@ -2,11 +2,10 @@ require 'app_helper'
 
 feature 'Delete list item' do
   given!(:item) { create_item }
-  given!(:user) { create_user }
   given(:new_item_page) { @new_item_page }
   
   background do
-    SignInPage.visit.sign_in user.email, user.password
+    SignInPage.sign_in create_user
     @new_item_page = NewItemPage.visit
   end
   

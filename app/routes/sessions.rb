@@ -27,7 +27,9 @@ module Todo
         redirect root_path
       end
       
-      get :new
+      get :new do
+        signed_out_only
+      end
     end
     
     post '/unauthenticated' do

@@ -26,6 +26,10 @@ module Todo
     def signed_in_only
       warden.authenticate!
     end
+    
+    def signed_out_only
+      redirect root_path if warden.authenticated?
+    end
   end
 end
 
