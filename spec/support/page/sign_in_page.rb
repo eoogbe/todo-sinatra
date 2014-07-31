@@ -9,7 +9,7 @@ class SignInPage
   end
   
   def self.path
-    '/sessions/new'
+    '/session/new'
   end
   
   def self.sign_in email, password = nil

@@ -20,7 +20,7 @@ module Todo
       end
     end
     
-    map_routes '/sessions' do
+    map_routes '/session' do
       post do
         warden.authenticate!
         flash[:success] = warden.message
@@ -34,7 +34,7 @@ module Todo
     
     post '/unauthenticated' do
       flash[:error] = warden_options[:message] || 'Login to continue'
-      redirect new_sessions_path
+      redirect new_session_path
     end
   end
 end
