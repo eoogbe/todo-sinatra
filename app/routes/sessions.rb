@@ -6,13 +6,13 @@ module Todo
     
     Warden::Strategies.add(:password) do
       def valid?
-        params['email'].present? && params['password'].present?
+        params['session'].present?
       end
       
       def authenticate!
-        user = UserMapper.find email: params['email']
+        user = UserMapper.find email: params['session']['email']
         
-        if user.valid_password? params['password']
+        if user.valid_password? params['session']['password']
           success! user, 'Welcome user!'
         else
           throw :warden, message: 'Invalid email or password'

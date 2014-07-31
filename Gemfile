@@ -13,17 +13,17 @@ gem 'i18n', '~> 0.6.11'
 gem 'haml'
 gem 'sinatra-asset-pipeline'
 gem 'autoprefixer-rails'
-gem 'compass', '~> 0.12.6'
+gem 'compass'
 gem 'therubyracer', platform: :ruby
-gem "sass", require: 'sass'
-gem 'bootstrap-sass', '~> 3.2.0.0'
+gem 'sass', require: 'sass'
+gem 'bootstrap-sass'
 gem 'uglifier', '~> 2.5.1'
 gem 'bcrypt', '~> 3.1.7'
 gem 'warden'
 gem 'thin'
 
 group :test do
-  gem 'rspec', '~> 3.0.0'
+  gem 'rspec'
   gem 'capybara'
   gem 'rspec-given'
 end

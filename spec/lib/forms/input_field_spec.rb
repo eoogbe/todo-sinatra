@@ -103,11 +103,11 @@ describe Todo::Forms::InputField do
       end
     end
     
-    context 'when no object' do
-      Given(:input_field) { Todo::Forms::InputField.new nil, :foo }
+    context 'when no model' do
+      Given(:input_field) { Todo::Forms::InputField.new :bar, :foo }
       
       Given(:expected) do
-        default_html.merge name: :foo, id: :foo, value: ''
+        default_html.merge name: 'bar[foo]', id: 'bar-foo', value: ''
       end
       
       Then { result == expected }

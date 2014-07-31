@@ -8,11 +8,11 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     arrayfields (4.9.2)
-    autoprefixer-rails (2.1.1.20140710)
+    autoprefixer-rails (2.2.0.20140727)
       execjs
     backports (3.6.0)
     bcrypt (3.1.7-x86-mingw32)
-    bootstrap-sass (3.2.0.0)
+    bootstrap-sass (3.2.0.1)
       sass (~> 3.2)
     capybara (2.4.1)
       mime-types (>= 1.16)
@@ -45,7 +45,7 @@ GEM
     mini_portile (0.6.0)
     minitest (5.4.0)
     multi_json (1.10.1)
-    nokogiri (1.6.3-x86-mingw32)
+    nokogiri (1.6.3.1-x86-mingw32)
       mini_portile (= 0.6.0)
     rack (1.5.2)
     rack-contrib (1.1.0)
@@ -59,17 +59,17 @@ GEM
       rspec-core (~> 3.0.0)
       rspec-expectations (~> 3.0.0)
       rspec-mocks (~> 3.0.0)
-    rspec-core (3.0.2)
+    rspec-core (3.0.3)
       rspec-support (~> 3.0.0)
-    rspec-expectations (3.0.2)
+    rspec-expectations (3.0.3)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.0.0)
     rspec-given (3.5.4)
       given_core (= 3.5.4)
       rspec (>= 2.12)
-    rspec-mocks (3.0.2)
+    rspec-mocks (3.0.3)
       rspec-support (~> 3.0.0)
-    rspec-support (3.0.2)
+    rspec-support (3.0.3)
     sass (3.2.19)
     sinatra (1.4.5)
       rack (~> 1.4)
@@ -129,13 +129,13 @@ DEPENDENCIES
   arrayfields (~> 4.9.2)
   autoprefixer-rails
   bcrypt (~> 3.1.7)
-  bootstrap-sass (~> 3.2.0.0)
+  bootstrap-sass
   capybara
-  compass (~> 0.12.6)
+  compass
   haml
   i18n (~> 0.6.11)
   rack-contrib (~> 1.1.0)
-  rspec (~> 3.0.0)
+  rspec
   rspec-given
   sass
   sinatra

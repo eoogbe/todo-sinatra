@@ -17,12 +17,15 @@ module Todo
       end
       
       def id
-        return options[:id] if options[:id]
-        object ? "#{object.model_name}-#{attr}" : attr
+        options[:id] || "#{model}-#{attr}"
       end
       
       private
       attr_reader :object, :attr, :options
+      
+      def model
+        object.respond_to?(:model_name) ? object.model_name : object
+      end
       
       def default_html
         { class: 'form-control', 'aria-required' => 'true', required: true }
@@ -37,13 +40,12 @@ module Todo
       end
       
       def name
-        return options[:name] if options[:name]
-        object ? "#{object.model_name}[#{attr}]" : attr
+        options[:name] || "#{model}[#{attr}]"
       end
       
       def value
         return options[:value] if options[:value]
-        return '' if type == :password || object.nil?
+        return '' if type == :password || !object.respond_to?(attr)
         
         val = object.send attr
         val.present? ? val : ''

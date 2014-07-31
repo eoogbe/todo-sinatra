@@ -8,6 +8,8 @@ require 'sinatra/flash'
 require 'i18n'
 require 'haml'
 require 'sass'
+require 'compass'
+require 'bootstrap-sass'
 require 'sinatra/asset_pipeline'
 require 'autoprefixer-rails'
 

@@ -11,21 +11,24 @@ module ViewHelper
     page_title.present? ? "#{page_title} | #{BASE_TITLE}" : BASE_TITLE
   end
   
-  def form_for object, action = nil
-    action ||= send default_path_for object
+  def form_for obj_or_sym, action = nil
+    action ||= send default_path_for obj_or_sym
     tag :form, action: action, method: :post do
-      yield Todo::Forms::FormBuilder.new object, self
-    end
-  end
-  
-  def build_form action
-    tag :form, action: action, method: :post do
-      yield Todo::Forms::FormBuilder.new nil, self
+      yield Todo::Forms::FormBuilder.new obj_or_sym, self
     end
   end
   
   private
-  def default_path_for object
-    "#{object.model_class.underscore.tr('/', '_').pluralize}_path"
+  def default_path_for obj_or_sym
+    obj_or_sym.is_a?(Symbol) ? symbol_default_path(obj_or_sym) :
+      object_default_path(obj_or_sym)
+  end
+  
+  def object_default_path obj
+    "#{obj.model_class.underscore.tr('/', '_').pluralize}_path"
+  end
+  
+  def symbol_default_path sym
+    "#{sym.to_s.pluralize}_path"
   end
 end
