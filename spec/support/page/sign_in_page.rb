@@ -2,7 +2,7 @@ require_relative 'page_object'
 
 class SignInPage < PageObject
   def self.path
-    '/session/new'
+    '/'
   end
   
   def self.sign_in email, password = nil

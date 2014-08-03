@@ -28,7 +28,7 @@ module Todo
     end
     
     def signed_out_only
-      redirect root_path if signed_in?
+      redirect new_items_path if signed_in?
     end
     
     def signed_in?

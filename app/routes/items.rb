@@ -7,14 +7,14 @@ module Todo
         
         if item.validate
           item_mapper.insert item
-          redirect root_path
+          redirect new_items_path
         else
           self.item = ItemPresenter.new item
           haml_with_layout :'items/new'
         end
       end
       
-      root :new do
+      get :new do
         signed_in_only
       end
       
@@ -22,7 +22,7 @@ module Todo
         delete do
           signed_in_only
           item_mapper.delete req_params[:id]
-          redirect root_path
+          redirect new_items_path
         end
       end
     end

@@ -2,7 +2,7 @@ require_relative 'page_object'
 
 class NewItemPage < PageObject
   def self.path
-    '/'
+    '/items/new'
   end
   
   def add_item text

@@ -7,7 +7,7 @@ module Todo
         
         if user.validate
           UserMapper.insert user
-          redirect new_session_path
+          redirect root_path
         else
           self.user = UserPresenter.new user
           haml_with_layout :'users/new'

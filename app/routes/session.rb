@@ -24,22 +24,22 @@ module Todo
       post do
         warden.authenticate!
         flash[:success] = warden.message
-        redirect root_path
+        redirect new_items_path
       end
       
       delete do
         warden.logout
-        redirect new_session_path
+        redirect root_path
       end
       
-      get :new do
+      root :new do
         signed_out_only
       end
     end
     
     post '/unauthenticated' do
       flash[:error] = warden_options[:message] || 'Login to continue'
-      redirect new_session_path
+      redirect root_path
     end
   end
 end

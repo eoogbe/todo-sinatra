@@ -34,6 +34,11 @@ module ViewHelper
     end
   end
   
+  def link_to text, url, options = {}
+    html_attrs = { href: url }.merge options
+    tag :a, text, html_attrs
+  end
+  
   private
   def default_path_for obj_or_sym
     obj_or_sym.is_a?(Symbol) ? symbol_default_path(obj_or_sym) :
