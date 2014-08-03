@@ -1,11 +1,17 @@
 ---
 en:
+    errors:
+        blank: must not be blank
+        duplicate: has already been used
+        format: is in an invalid format
+        confirmation: must match its confirmation
+        too_short: must be at least %{count} characters
     models:
         item:
             attrs:
                 text: Item
-            errors:
-                blank: must not be blank
     titles:
         sessions:
             new: Sign In
+        users:
+            new: Sign Up

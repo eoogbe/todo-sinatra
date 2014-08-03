@@ -10,7 +10,7 @@ feature 'Sign in user' do
   
   scenario 'when valid' do
     sign_in_page.sign_in user.email, user.password
-    expect(sign_in_page).to have_success
+    expect(page.current_path).to eq NewItemPage.path
   end
   
   scenario 'when invalid' do

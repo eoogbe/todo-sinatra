@@ -19,8 +19,14 @@ module Todo
             end
           end
           
-          define_method "#{route[:name]}_path" do
-            route[:namespace] + route[:path]
+          if route[:on] == :member
+            define_method "#{route[:name]}_path" do |obj|
+              route[:fullpath].sub ':id', obj.id.to_s
+            end
+          else
+            define_method "#{route[:name]}_path" do
+              route[:fullpath]
+            end
           end
         end
       end

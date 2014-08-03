@@ -7,7 +7,7 @@ module ViewHelper
   alias_method :t, :translate
   
   def full_title
-    page_title = t "titles.#{view_name}", default: ''
+    page_title = t view_name, default: '', scope: :titles
     page_title.present? ? "#{page_title} | #{BASE_TITLE}" : BASE_TITLE
   end
   
@@ -15,6 +15,22 @@ module ViewHelper
     action ||= send default_path_for obj_or_sym
     tag :form, action: action, method: :post do
       yield Todo::Forms::FormBuilder.new obj_or_sym, self
+    end
+  end
+  
+  def button_to text, url, options = {}
+    method = options.delete(:method) || :post
+    form_method = method.to_s == 'get' ? :get : :post
+    form_attrs = { action: url, method: form_method, class: options.delete(:form_class) }
+    button_attrs = { type: :submit }.merge options
+    
+    tag :form, form_attrs do
+      if %w(get post).include? method.to_s
+        tag(:button, text, button_attrs)
+      else
+        tag(:input, type: :hidden, name: '_method', value: method) +
+        tag(:button, text, button_attrs)
+      end
     end
   end
   

@@ -29,7 +29,8 @@ module Todo
       end
       
       def root name = nil, &block
-        route = { namespace: '/', method: :get, block: block, path: '', name: 'root' }
+        route = { namespace: '/', method: :get, block: block, path: '',
+          name: 'root', on: :collection, fullpath: '/' }
         route[:view] = create_route_view route[:method], name, scope
         routes << route
       end
@@ -50,6 +51,7 @@ module Todo
         route = { method: method, block: block }
         
         route[:namespace] = options[:namespace]
+        route[:on] = options[:on] || :collection
         
         route[:name] = base_name
         route[:name] = "#{name}_#{route[:name]}" if name
@@ -59,6 +61,7 @@ module Todo
         route[:path] += "/#{path}" if path.present?
         
         route[:view] = create_route_view method, name, options
+        route[:fullpath] = route[:namespace] + route[:path]
         
         routes << route
       end

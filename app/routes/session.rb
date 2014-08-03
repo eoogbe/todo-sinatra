@@ -27,6 +27,11 @@ module Todo
         redirect root_path
       end
       
+      delete do
+        warden.logout
+        redirect new_session_path
+      end
+      
       get :new do
         signed_out_only
       end

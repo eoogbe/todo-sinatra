@@ -7,7 +7,7 @@ class Item
   end
   
   def validate
-    errors.add(:text, :blank) if text.blank?
+    errors.add :text, :blank if text.blank?
     errors.blank?
   end
   

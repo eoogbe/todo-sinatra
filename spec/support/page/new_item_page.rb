@@ -1,13 +1,6 @@
-require 'capybara'
-require 'capybara/dsl'
+require_relative 'page_object'
 
-class NewItemPage
-  include Capybara::DSL
-  
-  def self.visit
-    new.tap {|page| page.visit_page }
-  end
-  
+class NewItemPage < PageObject
   def self.path
     '/'
   end
@@ -19,6 +12,10 @@ class NewItemPage
   
   def delete_item
     find('table').click_on 'delete'
+  end
+  
+  def sign_out
+    click_on 'Sign out'
   end
   
   def current_page?
@@ -35,9 +32,5 @@ class NewItemPage
   
   def has_error?
     has_content? 'Item must not be blank'
-  end
-  
-  def visit_page
-    visit self.class.path
   end
 end

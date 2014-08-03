@@ -8,10 +8,10 @@ describe Item do
     When(:valid) { item.validate }
     
     context 'when valid' do
-      Then { valid }
+      Then { !!valid }
     end
     
-    context 'when invalid' do
+    context 'when text blank' do
       Given { item.text = '' }
       
       Then { !valid }

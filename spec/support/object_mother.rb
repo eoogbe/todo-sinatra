@@ -8,7 +8,7 @@ module ObjectMother
   end
   
   def new_user
-    User.new email: 'user1@example.com', password: 'foobar'
+    User.new email: 'user1@example.com', password: 'foobarfoobar'
   end
   
   def create_user

@@ -23,18 +23,30 @@ class UserMapper
       encrypted_password: rows.first[:encrypted_password]
   end
   
+  def exists? conditions
+    connection.execute(exists_sql(conditions), conditions.values).present?
+  end
+  
   private
   attr_reader :connection
+  
+  def conditions_to_sql conditions
+    conditions.keys.map do |type|
+      %Q["#{Todo::Db::Connection.escape_quotes(type)}"=?]
+    end.join(' AND ')
+  end
   
   def insert_sql
     'INSERT INTO user (email, encrypted_password) VALUES (?, ?)'
   end
   
   def find_sql conditions
-    conditions_sql = conditions.keys.map do |type|
-      %Q["#{Todo::Db::Connection.escape_quotes(type)}"=?]
-    end.join(' AND ')
-    
-    "SELECT user_id, email, encrypted_password FROM user WHERE #{conditions_sql}"
+    "SELECT user_id, email, encrypted_password
+      FROM user
+      WHERE #{conditions_to_sql(conditions)}"
+  end
+  
+  def exists_sql conditions
+    "SELECT 1 FROM user WHERE #{conditions_to_sql(conditions)} LIMIT 1"
   end
 end

@@ -15,9 +15,10 @@ module Todo
       include Enumerable
       def_delegators :errors, :[], :blank?, :empty?, :present?
       
-      def add attr, type
+      def add attr, type, options = {}
         errors[attr] ||= Set.new
         errors[attr] << type
+        self.options[type] = options
       end
       
       def count
@@ -33,6 +34,10 @@ module Todo
       
       def base
         errors[Base.new] ||= Set.new
+      end
+      
+      def options
+        @options ||= {}
       end
       
       private

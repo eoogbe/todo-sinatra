@@ -42,20 +42,15 @@ module Todo
       end
       
       def attr_msg attr
-        attr_msg = template.translate attr_t(attr), default: attr.to_s.humanize
+        attr_msg = template.translate attr, default: attr.to_s.humanize,
+          scope: [:models, object.model_name, :attrs]
         attr_msg.present? ? "#{attr_msg} " : ''
       end
       
       def type_msg type
-        template.translate type_t type
-      end
-      
-      def attr_t attr
-        "models.#{object.model_name}.attrs.#{attr}"
-      end
-      
-      def type_t type
-        "models.#{object.model_name}.errors.#{type}"
+        defaults = { default: type.to_s.humanize, scope: [:errors] }
+        options = defaults.merge errors.options[type]
+        template.translate type, options
       end
     end
   end

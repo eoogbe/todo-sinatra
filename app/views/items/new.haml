@@ -11,7 +11,4 @@
       - items.each do |item|
         %tr
           %td= item.text
-          %td
-            %form(action="/items/#{item.id}" method="post")
-              %input(type="hidden" name="_method" value="delete")
-              %button.btn.btn-link(type="submit") delete
+          %td= button_to 'delete', item_path(item), method: :delete, class: 'btn-link'

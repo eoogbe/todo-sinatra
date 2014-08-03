@@ -13,7 +13,9 @@
   
   %body.container
     %header(role="banner")
-      %h1 Todo
+      %h1 Todo App
+      - if signed_in?
+        = button_to 'Sign out', session_path, method: :delete, form_class: 'pull-right form-inline', class: 'btn-link'
     
     %main(role="main")
       = styled_flash
