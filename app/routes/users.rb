@@ -2,6 +2,7 @@ module Todo
   class App < Sinatra::Base
     map_routes '/users' do
       post do
+        signed_out_only
         user = User.new user_params
         
         if user.validate
@@ -13,7 +14,9 @@ module Todo
         end
       end
       
-      get :new
+      get :new do
+        signed_out_only
+      end
     end
     
     def user

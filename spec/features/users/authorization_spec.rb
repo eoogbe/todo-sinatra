@@ -15,5 +15,9 @@ feature 'User authorization' do
     expect(page.current_path).to eq NewItemPage.path
   end
   
-  scenario 'when sign up page'
+  scenario 'when sign up page' do
+    SignInPage.sign_in create_user
+    SignUpPage.visit
+    expect(page.current_path).to eq NewItemPage.path
+  end
 end
