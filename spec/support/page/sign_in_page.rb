@@ -19,6 +19,8 @@ class SignInPage < PageObject
     fill_in 'Email', with: email
     fill_in 'Password', with: password
     click_on 'Sign In'
+    
+    NewItemPage.new
   end
   
   def has_error?

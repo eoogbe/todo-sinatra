@@ -16,12 +16,20 @@ class User
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(?:\.[a-z\d\-]+)*\.[a-z]+\z/i
   MIN_PASSWORD_LENGTH = 12
   
+  include Todo::Models::Validations
+  
   attr_accessor :id, :email, :password
   attr_accessor :repository
   attr_writer :password_confirmation
   
   def initialize args = {}
-    mass_assign args
+    @id = args[:id]
+    @email = args[:email]
+    @password = args[:password]
+    @password_confirmation = args[:password_confirmation]
+    if args[:encrypted_password]
+      self.encrypted_password = args[:encrypted_password]
+    end
   end
   
   def valid_password? password
@@ -42,21 +50,23 @@ class User
   end
   
   def validate
-    errors.add :email, :blank if email.blank?
-    errors.add :email, :duplicate if repository.exists? email: email
-    errors.add :email, :format unless email =~ VALID_EMAIL_REGEX
+    validates_presence_of :email, :password
     
-    errors.add :password, :blank if password.blank?
-    errors.add :password, :confirmation if password != password_confirmation
-    if password.present? && password.length < MIN_PASSWORD_LENGTH
-      errors.add :password, :too_short, count: MIN_PASSWORD_LENGTH
-    end
+    validates_uniqueness_of :email
+    validates_format_of :email, VALID_EMAIL_REGEX
+    
+    validates_confirmation_of :password
+    validates_length_of :password, min: MIN_PASSWORD_LENGTH
     
     errors.blank?
   end
   
   def errors
     @errors ||= Todo::Models::Errors.new
+  end
+  
+  def inspect
+    "#<User id:#{id}, email:#{email}, password:#{password}>"
   end
   
   private

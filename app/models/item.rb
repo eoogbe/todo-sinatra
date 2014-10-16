@@ -1,13 +1,16 @@
 class Item
-  attr_accessor :id, :text
+  include Todo::Models::Validations
+  attr_accessor :id, :text, :user
   
   def initialize args = {}
     @id = args[:id]
     @text = args[:text]
+    @user = args[:user]
   end
   
   def validate
-    errors.add :text, :blank if text.blank?
+    validates_presence_of :text, :user
+    
     errors.blank?
   end
   

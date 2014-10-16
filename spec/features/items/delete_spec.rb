@@ -5,7 +5,7 @@ feature 'Delete list item' do
   given(:new_item_page) { @new_item_page }
   
   background do
-    SignInPage.sign_in create_user
+    SignInPage.sign_in item.user
     @new_item_page = NewItemPage.visit
   end
   

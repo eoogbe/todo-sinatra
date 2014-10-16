@@ -15,21 +15,26 @@ class ItemMapper
     @connection = connection || Todo::Db::Connection.new
   end
   
-  def all
-    connection.execute('SELECT item_id, text FROM item').map do |row|
-      Item.new id: row[:item_id], text: row[:text]
+  def where_user user
+    connection.execute(where_user_sql, [user.id]).map do |row|
+      Item.new id: row[:item_id], text: row[:text], user: user
     end
   end
   
   def delete id
-    connection.execute "DELETE FROM item WHERE item_id=?", [id]
+    connection.execute "DELETE FROM item WHERE item_id = ?", [id]
   end
   
   def insert item
-    connection.execute 'INSERT INTO item (text) VALUES (?)', [item.text]
+    connection.execute 'INSERT INTO item (text, user_id) VALUES (?, ?)',
+      [item.text, item.user.id]
     item.id = connection.last_insert_row_id
   end
   
   private
   attr_reader :connection
+  
+  def where_user_sql
+    'SELECT item_id, text FROM item WHERE user_id = ?'
+  end
 end

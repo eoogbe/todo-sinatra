@@ -26,6 +26,10 @@ class NewItemPage < PageObject
     has_selector? 'td', text: text
   end
   
+  def has_no_item? text
+    has_no_selector? 'td', text: text
+  end
+  
   def has_no_items?
     has_no_selector? 'table'
   end

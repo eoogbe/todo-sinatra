@@ -17,5 +17,12 @@ describe Item do
       Then { !valid }
       And { item.errors[:text].include? :blank }
     end
+    
+    context 'when user blank' do
+      Given { item.user = nil }
+      
+      Then { !valid }
+      And { item.errors[:user].include? :blank }
+    end
   end
 end

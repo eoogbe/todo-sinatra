@@ -6,8 +6,6 @@ feature 'User authorization' do
     expect(page.current_path).to eq SignInPage.path
   end
   
-  scenario 'when returning'
-  
   scenario 'when sign in page' do
     sign_in_page = SignInPage.visit
     sign_in_page.sign_in create_user

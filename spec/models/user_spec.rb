@@ -19,7 +19,7 @@ describe User do
     end
     
     context 'when email not unique' do
-      Given { create_user }
+      Given { create_user(email: user.email) }
       
       Then { !valid }
       And { user.errors[:email].include? :duplicate }

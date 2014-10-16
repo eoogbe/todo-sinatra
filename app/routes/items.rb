@@ -4,6 +4,7 @@ module Todo
       post do
         signed_in_only
         item = Item.new item_params
+        item.user = current_user
         
         if item.validate
           item_mapper.insert item
@@ -32,7 +33,7 @@ module Todo
     end
     
     def items
-      @items ||= item_mapper.all
+      @items ||= item_mapper.where_user(current_user)
     end
     
     private
@@ -44,6 +45,10 @@ module Todo
     
     def item_mapper
       @item_mapper ||= ItemMapper.new
+    end
+    
+    def current_user
+      warden.user
     end
   end
 end

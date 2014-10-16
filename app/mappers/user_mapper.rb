@@ -13,10 +13,11 @@ class UserMapper
   
   def insert user
     connection.execute insert_sql, [user.email, user.encrypted_password]
+    user.id = connection.last_insert_row_id
   end
   
   def find conditions
-    conditions = {user_id: conditions} unless conditions.is_a? Hash
+    conditions = { user_id: conditions } unless conditions.is_a? Hash
     rows = connection.execute find_sql(conditions), conditions.values
     return User::Nil.new if rows.empty?
     User.new id: rows.first[:user_id], email: rows.first[:email],
